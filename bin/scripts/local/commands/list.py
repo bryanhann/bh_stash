@@ -6,6 +6,8 @@ def do_list():
     for item in STASH.iterdir():
         print(item)
 
+def help(*args):
+    print( 'list the files.')
 def main(args):
     global ARGS
     ARGS=None
