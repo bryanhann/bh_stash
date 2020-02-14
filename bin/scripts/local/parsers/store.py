@@ -1,9 +1,8 @@
 import argparse
 
 parser = argparse.ArgumentParser(
-    prog='stash store', 
-    usage="""\
-stash store [-n <NOTE>] [-s <STASH>] <TARGET>
+    prog='stash store',
+    usage="""stash store [-n <NOTE>] [-s <STASH>] <TARGET>
 
     STASH is an alternative to the default stash
     NOTE is a string to append to the stash log
@@ -16,10 +15,27 @@ stash store [-n <NOTE>] [-s <STASH>] <TARGET>
     """
 )
 
-parser.add_argument( 'target',  )
-parser.add_argument( '-n', '--note', action='store',default='none' )
-parser.add_argument( '-s', '--stash', action='store' )
-parser.add_argument( '-d', '--dryrun', action='store_true' )
-parser.add_argument( '-v', '--verbose', action='store_true' )
+parser.add_argument(
+    'target',
+)
 
+parser.add_argument(
+    '-n', '--note',
+    action='store',
+    default='none',
+)
 
+parser.add_argument(
+    '-s', '--stash',
+    action='store',
+)
+
+parser.add_argument(
+    '-d', '--dryrun',
+    action='store_true',
+)
+
+parser.add_argument(
+    '-v', '--verbose',
+    action='store_true'
+)
