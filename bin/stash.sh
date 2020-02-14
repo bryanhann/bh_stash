@@ -1,6 +1,5 @@
-pushd $0/../scripts
-export PYTHONPATH=$PWD
+pushd $0/../scripts >> /tmp/dev.nul
+export PYTHONPATH=$PWD:$PYTHONPATH
 export ROOT=$PWD
-echo $PYTHONPATH
-popd
+popd >> /tmp/dev.nul
 python3 $ROOT/main.py $* 
