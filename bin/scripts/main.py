@@ -8,7 +8,7 @@ USAGE=''
 SUBCOMMAND=''
 
 ROOT=Path(ARGS.pop(0)).parent
-if ARGS and ARGS[0]=='--usage':
+if ARGS and ARGS[0] in 'help --help -h'.split():
     USAGE=ARGS.pop(0)
 if ARGS:
     SUBCOMMAND = ARGS.pop(0)
