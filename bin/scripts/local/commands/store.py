@@ -25,4 +25,3 @@ def main(args):
     global ARGS
     ARGS=parser.parse_args(args)
     store(Path(ARGS.target))
-

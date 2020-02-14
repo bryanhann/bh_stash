@@ -1,31 +1,41 @@
-import sys
 import os
+import sys
 from pathlib import Path
-print( sys.argv )
-root=Path(sys.argv[0]).parent
-print(44, root)
-try:
-    script = sys.argv[1]
-except IndexError:
-    script = 'help'
-args = sys.argv[2:]
+from importlib import import_module
 
-def help():
-    print( 'usage: stash <subcommand>\n')
+ARGS=sys.argv[:]
+USAGE=''
+SUBCOMMAND=''
+
+ROOT=Path(ARGS.pop(0)).parent
+if ARGS and ARGS[0]=='--usage':
+    USAGE=ARGS.pop(0)
+if ARGS:
+    SUBCOMMAND = ARGS.pop(0)
+
+def usage():
     print('Subcommands:')
-    for item in os.listdir(root/'local/commands'):
+    for item in os.listdir(ROOT/'local/commands'):
         if item.endswith('.py') and not item.startswith('_'):
             print( '\t%s' % item.split('.')[0] )
-if script=='help':
-    help()
-    exit()
 
-try:
-    exec( 'import local.commands.%s as foo' % script)
-except ModuleNotFoundError:
-    print('unknown subcommand: %s' % script )
-    exit()
-if script=='help':
-    os.chdir( root )
-foo.main(args)
-print(88, foo, script)
+def main():
+    def undocumented(*x): print( 'subcommand %s is undocumented' % SUBCOMMAND )
+    def unimplemented(*x): print( 'subcommand %s is unimplemented' % SUBCOMMAND )
+    try:
+        module = import_module('local.commands.%s' % SUBCOMMAND)
+    except ModuleNotFoundError:
+        module = None
+
+    client_main =  getattr(module, 'main', None)
+    client_usage = getattr(module, 'help', None)
+
+    if not SUBCOMMAND:
+        usage()
+    elif USAGE:
+        (client_usage or undocumented)()
+    else:
+        (client_main or unimplemented)(ARGS)
+
+main()
+
